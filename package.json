@@ -21,5 +21,12 @@
   "bugs": {
     "url": "https://github.com/ronronrivera/chat-app/issues"
   },
-  "homepage": "https://github.com/ronronrivera/chat-app#readme"
+  "homepage": "https://github.com/ronronrivera/chat-app#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6"
+  }
 }
