@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import { ENV } from "../lib/env.js";
@@ -74,6 +74,15 @@ export const Login = async (req, res) =>{
 	const {email, password} = req.body;
 	
 	try{
+		if(!email || !password){
+			return res.status(400).json({message: "All fields are required"})
+		}
+		
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(email)) {
+			return res.status(400).json({ message: "Invalid email format" });
+		}
+
 		const user = await User.findOne({email});
 
 		if(!user) return res.status(400).json({message: "Invalid Credentials"}); //never tell the client to which one is incorrect: password or email
