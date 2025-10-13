@@ -37,18 +37,43 @@ export const getMessagesByUserId = async (req, res) =>{
 }
 
 export const sendMessage = async (req, res) =>{
+	
+
 	try{
 		const {text, image} = req.body;
 		const {id: receiverId} = req.params;
 		const senderId = req.user._id;
 
+    // Validate message content
+    if (!text && !image) {
+      return res.status(400).json({message: "Message must contain text or image"});
+    }
+
+    // Validate receiver exists
+    const receiver = await User.findById(receiverId);
+    if (!receiver) {
+      return res.status(404).json({message: "Receiver not found"});
+    }
+
 		let imageUrl;
-	
+/*
+  	before code rabbit
+		
 		if(image){
 			//upload base64 image to cloudinary
 			const uploadResponse = await cloudinary.uploader.upload(image);
 			imageUrl = uploadResponse.secure_url;
 		}
+*/
+
+      try {
+        //upload base64 image to cloudinary
+        const uploadResponse = await cloudinary.uploader.upload(image);
+        imageUrl = uploadResponse.secure_url;
+      } catch (uploadError) {
+        console.error("Cloudinary upload failed:", uploadError);
+        return res.status(500).json({message: "Image upload failed"});
+      }
 
 		const newMessage = new Message({
 			senderId,
@@ -74,7 +99,7 @@ export const getChatPartners = async (req, res) =>{
 	try{
 		const loggedInUserId = req.user._id;
 		
-		//find all the messages where the logged-in user is either sender or reciever
+		//find all the messages where the logged-in user is either sender or receiver
 		const messages = await Message.find({
 			$or: [{senderId: loggedInUserId}, {receiverId: loggedInUserId}]
 		});
