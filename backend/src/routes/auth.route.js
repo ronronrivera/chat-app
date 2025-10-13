@@ -8,7 +8,7 @@ const router = express.Router();
 router.use(arcjetProtection);
 
 router.post('/signup', Signup);
-router.post('/login',arcjetProtection,Login);
+router.post('/login',Login);
 router.post('/logout',Logout);
 
 router.put('/update-profile', protectRoute, updateProfile);
