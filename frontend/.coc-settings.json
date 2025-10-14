@@ -1,0 +1,15 @@
+
+{
+  "tailwindCSS.includeLanguages": {
+    "html": "html",
+    "javascript": "javascript",
+    "javascriptreact": "javascriptreact",
+    "typescriptreact": "typescriptreact"
+  },
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.experimental.configFile": "./tailwind.config.js",
+  "tailwindCSS.classAttributes": ["class", "className"],
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false
+}
