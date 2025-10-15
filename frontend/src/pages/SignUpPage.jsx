@@ -51,7 +51,7 @@ const SignUpPage = () => {
                       <label className='auth-input-label'>Email</label>
                       <div className='relative'>
                         <MailIcon className='auth-input-icon'/>
-                        <input type="email"
+                        <input type="text"
                           value={formData.email}
                           onChange={(e) => setFormData({...formData, email: e.target.value})}
                           className='input'
@@ -76,7 +76,7 @@ const SignUpPage = () => {
                     {/* SUBMIT BUTTON */}
                     <button className='auth-btn' type="submit" disabled={isSignUp}>
                       {isSignUp? (<LoaderIcon className='w-full h-5 animate-spin text-center'/>) : (
-                      "Craete account"
+                      "Create account"
                       )}
                     </button>
                   </form>

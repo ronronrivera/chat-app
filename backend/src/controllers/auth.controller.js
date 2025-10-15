@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
 import { ENV } from "../lib/env.js";
+import cloudinary from "../lib/cloudinary.js";
 
 export const Signup = async (req, res) =>{
 
@@ -120,7 +121,7 @@ export const updateProfile = async (req, res) =>{
 		
 		const userId = req.user._id;
 		
-		const uploadResponse = await cloudinary.uploader(profilePic);
+		const uploadResponse = await cloudinary.uploader.upload(profilePic);
 		
 		const updatedUser = await User.findByIdAndUpdate(userId, {profilePic:uploadResponse.secure_url}, {new:true});
 		
