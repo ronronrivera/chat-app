@@ -28,7 +28,7 @@ export const getMessagesByUserId = async (req, res) =>{
 			]
 		})
 
-		res.status(200).json({message});
+		res.status(200).json(message);
 	}
 	catch(error){
 		console.error("Error in getMessagesByUserId", error);
@@ -66,6 +66,7 @@ export const sendMessage = async (req, res) =>{
 		}
 */
 
+		if(image){
       try {
         //upload base64 image to cloudinary
         const uploadResponse = await cloudinary.uploader.upload(image);
@@ -74,6 +75,7 @@ export const sendMessage = async (req, res) =>{
         console.error("Cloudinary upload failed:", uploadError);
         return res.status(500).json({message: "Image upload failed"});
       }
+		}
 
 		const newMessage = new Message({
 			senderId,
