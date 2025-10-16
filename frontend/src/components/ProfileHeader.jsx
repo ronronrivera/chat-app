@@ -4,7 +4,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { useChatStore } from '../store/useChatStore';
 
 const mouseClickSound = new Audio("/sounds/frontend_public_sounds_mouse-click.mp3")
-mouseClickSound.volume = 0.02;
+mouseClickSound.volume = 0.2;
 
 const ProfileHeader = () => {
 

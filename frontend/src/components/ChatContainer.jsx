@@ -8,7 +8,7 @@ import MessagesLoadingSkeleton from './MessagesLoadingSkeleton';
 import MessageInput from './MessageInput';
 
 const ChatContainer = () => {
-  const { selectedUser, getMessagesByUserId, messages, isMessageLoading } = useChatStore(); 
+  const { selectedUser, getMessagesByUserId, messages, isMessageLoading, subscribeToMessages, unsubscribeFromMessages } = useChatStore(); 
   const { authUser } = useAuthStore();
 
   const messageEndRef = useRef(null);
@@ -17,13 +17,32 @@ const ChatContainer = () => {
     if (selectedUser?._id) {
       getMessagesByUserId(selectedUser._id);
     }
-  }, [selectedUser, getMessagesByUserId]);
+    subscribeToMessages()
+    
+    return () => unsubscribeFromMessages();
+    //clean up
+  }, [selectedUser, getMessagesByUserId, subscribeToMessages, unsubscribeFromMessages]);
 
-  useEffect(() =>{
-    if(messageEndRef.current){
-      messageEndRef.current.scrollIntoView({behavior : "smooth"});
+
+  useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages])
+
+    // Only trigger title change when a new message is received
+    const lastMessage = messages[messages.length - 1];
+
+    if (lastMessage && selectedUser && lastMessage.senderId !== authUser._id) {
+      const originalTitle = document.title;
+      document.title = `New message`;
+
+      const timeout = setTimeout(() => {
+        document.title = originalTitle;
+      }, 2000);
+
+    return () => clearTimeout(timeout);
+  }
+}, [messages, selectedUser, authUser._id]);
 
   return (
     <>
@@ -31,13 +50,13 @@ const ChatContainer = () => {
       <div className="flex-1 px-6 overflow-y-auto py-8">
         {messages.length > 0 && !isMessageLoading ? (
           <div className="max-w-3xl mx-auto space-y-6">
-            {messages.map((msg) => (
+            {messages.map((msg, index) => (
               <div
-                key={msg._id}
+                key={index}
                 className={`chat ${msg.senderId === authUser._id ? "chat-end" : "chat-start"}`}
               >
                 <div
-                  className={`chat-bubble relative ${
+                  className={`chat-bubble relative ${ 
                     msg.senderId === authUser._id
                       ? "bg-cyan-600 text-white"
                       : "bg-slate-800 text-slate-200"

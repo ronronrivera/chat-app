@@ -10,7 +10,8 @@ import cookieParser from "cookie-parser";
 
 import cors from "cors";
 
-const app = express();
+import {app, server} from "./lib/socket.js";
+
 const __dirname = path.resolve();
 
 const PORT = ENV.PORT || 3000;
@@ -31,7 +32,7 @@ if(ENV.NODE_ENV === "production"){
 	});
 }
 
-app.listen(PORT, () =>	 {	
+server.listen(PORT, () =>	 {	
 	console.log(`Sever is running at port ${PORT}`)
 	connectDB();
 });
