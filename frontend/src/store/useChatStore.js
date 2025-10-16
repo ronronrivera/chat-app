@@ -3,6 +3,7 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { useAuthStore } from "./useAuthStore";
 
+
 export const useChatStore = create((set, get) => ({
   allContacts: [],
   chats: [],
@@ -12,6 +13,8 @@ export const useChatStore = create((set, get) => ({
   isUsersLoading: false,
   isMessageLoading: false,
   isSoundEnabled: JSON.parse(localStorage.getItem("isSoundEnabled")) === true,
+
+
 
   toggleSound: () => {
     const newValue = !get().isSoundEnabled;
@@ -88,6 +91,30 @@ export const useChatStore = create((set, get) => ({
       //remove optimistic messsage on failure
       set({messages: messages})
     }
+  },
+  
+  subscribeToMessages: () =>{
+    const {selectedUser, isSoundEnabled} = get();
+    if(!selectedUser) return;
+    
+    const socket = useAuthStore.getState().socket;
+
+    socket.on("newMessage", (newMessage) => {
+      const currentMessages = get().messages;
+      set({messages: [...currentMessages, newMessage]});
+      
+      if(isSoundEnabled){
+        const notificationSound = new Audio("/sounds/frontend_public_sounds_notification.mp3")
+        notificationSound.currentTime = 0; // reset to start
+        notificationSound.play().catch((e) => console.log("Audio play failed", e));
+      }
+
+    });
+  },
+  
+  unsubscribeFromMessages:() =>{
+    const socket = useAuthStore.getState().socket;
+    socket.off("newMessage");
   }
 
 }));
