@@ -84,9 +84,9 @@ export const sendMessage = async (req, res) =>{
 			image: imageUrl,
 		});
 
-		await newMessage.save();
+		const savedMessage = await newMessage.save();
 
-		res.status(201).json({newMessage});
+		res.status(201).json(savedMessage);
 
 		//todo: send message in real-time if user is online - socket.io
 
