@@ -1,12 +1,11 @@
 # 💬 Chat App
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4336c8f6-ca2f-493a-a479-481ac119866b" />
 
 
 A **real-time chat application** built with the **MERN stack** (MongoDB, Express, React, Node.js) featuring **user authentication**, **image uploads**, and **notification sounds** for incoming messages.
 ---
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/98090705-3e43-4508-9fc2-3d95be75df77" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4336c8f6-ca2f-493a-a479-481ac119866b" />
 
 URL: https://chat-app-iwxv3.sevalla.app/
 
